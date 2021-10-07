@@ -1,0 +1,14 @@
+{
+  "name": "dock-api",
+  "version": "1.0.0",
+  "description": "Dock Issuer API",
+  "main": "src/index.js",
+  "scripts": {
+    "main": "node ./index.js"
+  },
+  "dependencies": {
+    "axios": "^0.22.0",
+    "clear": "^0.1.0",
+    "dotenv": "^10.0.0"
+  }
+}
