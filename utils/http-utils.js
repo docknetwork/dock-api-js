@@ -11,52 +11,35 @@ const axiosHeaders = {
   },
 };
 
-async function post(relativeUrl, data) {
+async function sendRequest(fullUrl, sendAction, actionFunc) {
   try {
-    const fullUrl = `${baseUrl}/${relativeUrl}`;
-    console.log(`Posting request to ${fullUrl}`);
+    console.log(`Sending ${sendAction} request to ${fullUrl}`);
 
-    return await axios.post(fullUrl, data, axiosHeaders);
+    return await actionFunc();
   } catch (err) {
     console.error(`Failed: ${err}`);
     return {};
   }
+}
+
+async function post(relativeUrl, data) {
+  const fullUrl = `${baseUrl}/${relativeUrl}`;
+  return sendRequest(fullUrl, 'POST', () => axios.post(fullUrl, data, axiosHeaders));
 }
 
 async function patch(relativeUrl, data) {
-  try {
-    const fullUrl = `${baseUrl}/${relativeUrl}`;
-    console.log(`Patching request to ${fullUrl}`);
-
-    return await axios.patch(fullUrl, data, axiosHeaders);
-  } catch (err) {
-    console.error(`Failed: ${err}`);
-    return {};
-  }
+  const fullUrl = `${baseUrl}/${relativeUrl}`;
+  return sendRequest(fullUrl, 'PATCH', () => axios.patch(fullUrl, data, axiosHeaders));
 }
 
 async function callDelete(relativeUrl) {
-  try {
-    const fullUrl = `${baseUrl}/${relativeUrl}`;
-    console.log(`Deleting ${fullUrl}`);
-
-    return await axios.delete(fullUrl, axiosHeaders);
-  } catch (err) {
-    console.error(`Failed: ${err}`);
-    return {};
-  }
+  const fullUrl = `${baseUrl}/${relativeUrl}`;
+  return sendRequest(fullUrl, 'DELETE', () => axios.delete(fullUrl, axiosHeaders));
 }
 
 async function get(relativeUrl) {
-  try {
-    const fullUrl = `${baseUrl}/${relativeUrl}`;
-    console.log(`Getting data from ${fullUrl}`);
-
-    return await axios.get(fullUrl, axiosHeaders);
-  } catch (err) {
-    console.error(`Failed: ${err}`);
-    return {};
-  }
+  const fullUrl = `${baseUrl}/${relativeUrl}`;
+  return sendRequest(fullUrl, 'GET', () => axios.get(fullUrl, axiosHeaders));
 }
 
 module.exports = {

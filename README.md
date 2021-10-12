@@ -5,3 +5,6 @@ Create a `.env` file with the following values:
 
     API_URL=http://localhost:8000 
     API_KEY=<INSERT YOUR KEY HERE>
+
+Run a workflow:
+    `npm run dids`

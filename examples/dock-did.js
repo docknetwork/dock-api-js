@@ -1,33 +1,30 @@
 const http = require('../utils/http-utils');
 
-async function createDID(data) {
-  const result = await http.post('dids/', data);
+async function sendAndLog(asyncFunc) {
+  const result = await asyncFunc();
   console.log(`Response: ${JSON.stringify(result.data)}`);
+
   return result.data;
+}
+
+async function createDID(data) {
+  return sendAndLog(() => http.post('dids/', data));
 }
 
 async function getDID(id) {
-  const result = await http.get(`dids/${id}`);
-  console.log(`Response: ${JSON.stringify(result.data)}`);
-  return result.data;
+  return sendAndLog(() => http.get(`dids/${id}`));
 }
 
 async function listDIDs() {
-  const result = await http.get('dids/');
-  console.log(`Response: ${JSON.stringify(result.data)}`);
-  return result.data;
+  return sendAndLog(() => http.get('dids/'));
 }
 
 async function updateDID(did, body) {
-  const result = await http.patch(`dids/${did}`, body);
-  console.log(`Response: ${JSON.stringify(result.data)}`);
-  return result.data;
+  return sendAndLog(() => http.patch(`dids/${did}`, body));
 }
 
 async function deleteDID(did) {
-  const result = await http.callDelete(`dids/${did}`);
-  console.log(`Response: ${JSON.stringify(result.data)}`);
-  return result.data;
+  return sendAndLog(() => http.callDelete(`dids/${did}`));
 }
 
 module.exports = {
