@@ -1,0 +1,21 @@
+{
+  "name": "dock-api",
+  "version": "1.0.0",
+  "description": "Dock Issuer API",
+  "main": "src/index.js",
+  "scripts": {
+    "dids": "node ./didflow.js"
+  },
+  "dependencies": {
+    "axios": "^0.22.0",
+    "clear": "^0.1.0",
+    "dotenv": "^10.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.31.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jest": "^24.5.2",
+    "jest": "^27.2.4"
+  }
+}
