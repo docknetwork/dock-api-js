@@ -4,7 +4,8 @@
   "description": "Dock Issuer API",
   "main": "src/index.js",
   "scripts": {
-    "dids": "node ./didflow.js"
+    "dids": "node ./didflow.js",
+    "schemas": "node ./schemaflow.js"
   },
   "dependencies": {
     "axios": "^0.22.0",
