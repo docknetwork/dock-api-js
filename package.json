@@ -5,7 +5,9 @@
   "main": "src/index.js",
   "scripts": {
     "dids": "node ./didflow.js",
-    "schemas": "node ./schemaflow.js"
+    "schemas": "node ./schemaflow.js",
+    "registries": "node ./registryflow.js",
+    "credentials": "node ./credentialsflow.js"
   },
   "dependencies": {
     "axios": "^0.22.0",
