@@ -28,8 +28,8 @@ async function createSchema(did) {
   return http.sendAndLog(() => http.post('schemas/', data));
 }
 
-async function getSchema(id) {
-  return http.sendAndLog(() => http.get(`schemas/${id}`));
+async function getSchema(hexId) {
+  return http.sendAndLog(() => http.get(`schemas/${hexId}`));
 }
 
 async function listSchemas() {

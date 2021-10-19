@@ -10,7 +10,7 @@ const schemaFlow = async () => {
   await jobs.waitForJobCompletion(createResult.id);
 
   // Retrieve the created Schema directly
-  await schemas.getSchema(createResult.data.id);
+  await schemas.getSchema(createResult.data.hexID);
 
   // Get all schemas associated with the authenticated user
   await schemas.listSchemas();

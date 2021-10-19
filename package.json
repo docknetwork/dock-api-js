@@ -4,6 +4,7 @@
   "description": "Dock Issuer API",
   "main": "src/index.js",
   "scripts": {
+    "anchors": "node ./anchorsflow.js",
     "dids": "node ./didflow.js",
     "schemas": "node ./schemaflow.js",
     "registries": "node ./registryflow.js",
