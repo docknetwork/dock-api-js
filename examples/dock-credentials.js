@@ -4,7 +4,7 @@ async function createCredential(credential, issuer) {
   const wrapped = {
     credential,
     issuer: {
-      id: issuer.data.hexDID,
+      id: issuer.data.did,
     },
   };
   return http.sendAndLog(() => http.post('credentials/', wrapped));

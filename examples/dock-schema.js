@@ -20,11 +20,11 @@ const testSchema = {
   additionalProperties: false,
 };
 
-async function createSchema(didHexId) {
+async function createSchema(did) {
   const data = testSchema;
 
   // Sign author property with DID hex value
-  data.author = didHexId;
+  data.author = did;
   return http.sendAndLog(() => http.post('schemas/', data));
 }
 

@@ -22,7 +22,7 @@ const createCredential = async () => {
   const issuerDID = await dids.createDID();
 
   // Set the subject to be the holder
-  credentialToRevoke.subject.id = holderDID.data.hexDid;
+  credentialToRevoke.subject.id = holderDID.data.did;
 
   return credentials.createCredential(credentialToRevoke, issuerDID);
 };

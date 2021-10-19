@@ -20,7 +20,7 @@ const credentialsFlow = async () => {
   const issuerDID = await dids.createDID();
 
   // Set the subject to be the holder
-  credentialBody.subject.id = holderDID.data.hexDid;
+  credentialBody.subject.id = holderDID.data.did;
 
   await credentials.createCredential(credentialBody, issuerDID);
 };
