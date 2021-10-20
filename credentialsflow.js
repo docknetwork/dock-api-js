@@ -1,5 +1,6 @@
 const credentials = require('./examples/dock-credentials');
 const dids = require('./examples/dock-did');
+const schemas = require('./examples/dock-schema');
 
 const credentialBody = {
   type: [
@@ -18,6 +19,10 @@ const credentialBody = {
 const credentialsFlow = async () => {
   const holderDID = await dids.createDID();
   const issuerDID = await dids.createDID();
+
+  // adding a schema is optional
+  const schema = await schemas.createSchema(issuerDID.data.did);
+  credentialBody.schema = schema.data.id;
 
   // Set the subject to be the holder
   credentialBody.subject.id = holderDID.data.did;
