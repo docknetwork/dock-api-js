@@ -1,6 +1,6 @@
-const credentials = require('./examples/dock-credentials');
-const dids = require('./examples/dock-did');
-const schemas = require('./examples/dock-schema');
+const credentials = require('../examples/dock-credentials');
+const dids = require('../examples/dock-did');
+const schemas = require('../examples/dock-schema');
 
 const credentialBody = {
   type: [

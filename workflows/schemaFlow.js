@@ -1,6 +1,6 @@
-const schemas = require('./examples/dock-schema');
-const jobs = require('./examples/dock-jobs');
-const dids = require('./examples/dock-did');
+const schemas = require('../examples/dock-schema');
+const jobs = require('../examples/dock-jobs');
+const dids = require('../examples/dock-did');
 
 const schemaFlow = async () => {
   // Create a DID

@@ -1,5 +1,5 @@
-const dids = require('./examples/dock-did');
-const jobs = require('./examples/dock-jobs');
+const dids = require('../examples/dock-did');
+const jobs = require('../examples/dock-jobs');
 
 const didFlow = async () => {
   // Create a DID

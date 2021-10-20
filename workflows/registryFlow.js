@@ -1,7 +1,7 @@
-const registries = require('./examples/dock-registries');
-const credentials = require('./examples/dock-credentials');
-const jobs = require('./examples/dock-jobs');
-const dids = require('./examples/dock-did');
+const registries = require('../examples/dock-registries');
+const credentials = require('../examples/dock-credentials');
+const jobs = require('../examples/dock-jobs');
+const dids = require('../examples/dock-did');
 
 const credentialToRevoke = {
   type: [
