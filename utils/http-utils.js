@@ -11,6 +11,13 @@ const axiosHeaders = {
   },
 };
 
+async function sendAndLog(asyncFunc) {
+  const result = await asyncFunc();
+  console.log(`Response: ${JSON.stringify(result.data)}`);
+
+  return result.data;
+}
+
 async function sendRequest(fullUrl, sendAction, actionFunc) {
   try {
     console.log(`Sending ${sendAction} request to ${fullUrl}`);
@@ -43,5 +50,5 @@ async function get(relativeUrl) {
 }
 
 module.exports = {
-  post, get, patch, callDelete,
+  post, get, patch, callDelete, sendAndLog,
 };
