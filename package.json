@@ -4,11 +4,13 @@
   "description": "Dock Issuer API",
   "main": "src/index.js",
   "scripts": {
-    "anchors": "node ./anchorsflow.js",
-    "dids": "node ./didflow.js",
-    "schemas": "node ./schemaflow.js",
-    "registries": "node ./registryflow.js",
-    "credentials": "node ./credentialsflow.js"
+    "all": "for FILE in ./workflows/*.js; do node $FILE; done",
+    "anchors": "node ./workflows/anchorsFlow.js",
+    "dids": "node ./workflows/didFlow.js",
+    "schemas": "node ./workflows/schemaFlow.js",
+    "registries": "node ./workflows/registryFlow.js",
+    "credentials": "node ./workflows/credentialsFlow.js",
+    "presentations": "node ./workflows/presentationsFlow.js"
   },
   "dependencies": {
     "axios": "^0.22.0",
