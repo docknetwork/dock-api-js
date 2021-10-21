@@ -8,15 +8,14 @@ const testSchema = {
     id: {
       type: 'string',
     },
-    emailAddress: {
-      type: 'string',
-      format: 'email',
-    },
     alumniOf: {
       type: 'string',
     },
+    degree: {
+      type: 'string',
+    },
   },
-  required: ['emailAddress', 'alumniOf'],
+  required: ['alumniOf'],
   additionalProperties: false,
 };
 
