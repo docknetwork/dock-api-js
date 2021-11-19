@@ -2,6 +2,7 @@ const credentials = require('../examples/dock-credentials');
 const dids = require('../examples/dock-did');
 const presentations = require('../examples/dock-presentations');
 const idUtils = require('../utils/id-utils');
+const jobs = require('../examples/dock-jobs');
 
 const credentialBody = {
   type: [
@@ -20,7 +21,10 @@ const credentialBody = {
 
 const credentialsFlow = async () => {
   const holderDID = await dids.createDID();
+  await jobs.waitForJobCompletion(holderDID.id);
+
   const issuerDID = await dids.createDID();
+  await jobs.waitForJobCompletion(issuerDID.id);
 
   // Set the subject to be the holder
   credentialBody.subject.id = holderDID.data.did;
