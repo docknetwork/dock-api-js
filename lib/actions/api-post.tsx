@@ -17,8 +17,6 @@ interface ApiPostParams {
 export async function apiPost({ relativeUrl, body }: ApiPostParams) {
   const fullUrl = `${baseUrl}/${relativeUrl}`;
   
-  console.log("fullUrl:", fullUrl);
-
   const result = await fetch(fullUrl, {
     method: "POST",
     headers: {

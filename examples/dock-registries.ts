@@ -56,7 +56,7 @@ export async function revoke(registryId: string, credential: Credential) {
 
   const data = {
     action: "revoke",
-    credentialIds: [credential],
+    credentialIds: [credential.id],
   };
   try {
     const response = await apiPost({

@@ -17,10 +17,10 @@ export type Issuer = {
 };
 
 export type Credential = {
+  id?: string;
   type: string[];
-  issuer: Issuer;
   subject: {
-    id: string;
+    id?: string;
     degree: {
       type: string;
       name: string;
