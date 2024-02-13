@@ -7,7 +7,7 @@
     "anchors": "node ./workflows/anchorsFlow.js",
     "dids": "node ./workflows/didFlow.js",
     "schemas": "node ./workflows/schemaFlow.js",
-    "registries": "node ./workflows/registryFlow.js",
+    "registries": "node ./workflows/registryFlow.ts",
     "credentials": "node ./workflows/credentialsFlow.js",
     "presentations": "node ./workflows/presentationsFlow.js",
     "dev": "next dev",
