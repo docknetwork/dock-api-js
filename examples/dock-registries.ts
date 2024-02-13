@@ -1,20 +1,47 @@
-import * as http from "../utils/http-utils";
+import { apiPost } from "@/lib/actions/api-post";
+import { Credential } from "./dock-credentials";
 
-/**
- * @name createRegistry
- * @description Creates a new registry with the given policy DID.
- *
- * @param policyDid - The DID of the policy to associate with the new registry.
- * @returns A promise that resolves to the created registry object.
- */
-export async function createRegistry(policyDid: string) {
+
+export type CreateRegistryResponse = {
+  id: string;
+  data: {
+    id: string;
+    policy: {
+      type: string;
+      policy: string[];
+      addOnly: boolean;
+    };
+    type: string;
+  };
+};
+
+
+
+export async function createRegistry(
+  policyDid: string
+) {
+
   const data = {
-    addOnly: false,
+    addOnly: true,
     policy: [policyDid],
   };
 
-  return http.sendAndLog(() => http.post("registries/", data));
-}
+  try {
+    const response: CreateRegistryResponse = await apiPost({
+      relativeUrl: 'registries', 
+      body: data
+    });
+  
+    console.log("APIPOST response: ", response); 
+
+    return response;
+    
+  } catch (error) {
+    console.error(error); 
+  };
+
+  return undefined;
+};
 
 
 /**
@@ -24,16 +51,29 @@ export async function createRegistry(policyDid: string) {
  * @param registryId - The ID of the registry to revoke from.
  * @param credential - The credential object containing the ID to revoke.
  */
-export async function revoke(registryId: string, credential: { id: string }) {
+export async function revoke(registryId: string, credential: Credential) {
   const url = `registries/${registryId}`;
 
   const data = {
     action: "revoke",
-    credentialIds: [credential.id],
+    credentialIds: [credential],
+  };
+  try {
+    const response = await apiPost({
+      relativeUrl: url, 
+      body: data
+    });
+  
+    console.log("REVOKE APIPOST response: ", response); 
+
+    return response;
+
+  } catch (error) {
+    console.error(error); 
   };
 
-  return http.sendAndLog(() => http.post(url, data));
-}
+  return undefined;
+};
 
 /**
  * @name unrevoke
@@ -50,5 +90,5 @@ export async function unrevoke(registryId: string, credential: { id: string }) {
     credentialIds: [credential.id],
   };
 
-  return http.sendAndLog(() => http.post(url, data));
+ /* return http.sendAndLog(() => http.post(url, data)); */
 }

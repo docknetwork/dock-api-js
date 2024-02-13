@@ -1,4 +1,4 @@
-import * as http from "../utils/http-utils";
+import { apiPost } from "@/lib/actions/api-post";
 
 /**
  * An object containing credentials, with optional issuer.
@@ -7,23 +7,44 @@ import * as http from "../utils/http-utils";
  * @param issuer - An optional issuer of the credential.
  */
 type CredentialProps = {
-  credential: any;
-  issuer: any;
+  credential: Credential;
+};
+
+export type Issuer = {
+    name: string;
+    image: string;
+    did: string;
+};
+
+export type Credential = {
+  type: string[];
+  issuer: Issuer;
+  subject: {
+    id: string;
+    degree: {
+      type: string;
+      name: string;
+    };
+  };
+  issuanceDate: string;
+  expirationDate: string;
 };
 
 /**
  * Creates a credential with the provided credential data and issuer.
  * Sets the credential issuer ID to the provided issuer DID.
- * Wraps the credential in an object and sends an HTTP POST request to /credentials/ to store it.
+ * Wraps the credential in an object and sends an POST request to credentials/ to store it.
  * @returns A Promise that resolves to the credential data.
  */
 export async function createCredential({
-  credential,
-  issuer,
-}: CredentialProps) {
-  credential.issuer.id = issuer?.data.did;
+  credential
+}: CredentialProps): Promise<Credential> {
   const wrapped = { credential };
-  return http.sendAndLog(() => http.post("credentials/", wrapped));
+
+  return await apiPost({
+    relativeUrl: "credentials/", 
+    body: wrapped
+  });
 };
 
 /**
@@ -33,6 +54,11 @@ export async function createCredential({
  * @param credential - The credential to verify.
  * @returns A Promise that resolves to the verification result.
  */
-export async function verifyCredential({ credential }: CredentialProps) {
-  return http.sendAndLog(() => http.post("verify/", credential));
+export async function verifyCredential({
+  credential,
+}: CredentialProps): Promise<any> {
+  return await apiPost({
+    relativeUrl: "verify/", 
+    body: credential
+  });
 };

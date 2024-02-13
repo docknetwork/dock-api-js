@@ -4,12 +4,12 @@
   "description": "Dock Issuer API, built in an NextJS v.14 app",
   "scripts": {
     "all": "for FILE in ./workflows/*.js; do node $FILE; done",
-    "anchors": "node ./workflows/anchorsFlow.js",
-    "dids": "node ./workflows/didFlow.js",
-    "schemas": "node ./workflows/schemaFlow.js",
+    "anchors": "node ./workflows/anchorsFlow.ts",
+    "dids": "node ./workflows/didFlow.ts",
+    "schemas": "node ./workflows/schemaFlow.ts",
     "registries": "node ./workflows/registryFlow.ts",
-    "credentials": "node ./workflows/credentialsFlow.js",
-    "presentations": "node ./workflows/presentationsFlow.js",
+    "credentials": "node ./workflows/credentialsFlow.ts",
+    "presentations": "node ./workflows/presentationsFlow.ts",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -17,19 +17,26 @@
   },
   "private": true,
   "dependencies": {
+    "@radix-ui/react-slot": "^1.0.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "dotenv": "^16.4.3",
+    "lucide-react": "^0.330.0",
+    "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.1.0"
+    "tailwind-merge": "^2.2.1",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
-    "eslint": "^8",
-    "eslint-config-next": "14.1.0"
+    "typescript": "^5"
   }
 }

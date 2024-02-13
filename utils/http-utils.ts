@@ -1,6 +1,11 @@
-import { ActionResult } from "next/dist/server/app-render/types";
+import dotenv from "dotenv";
+dotenv.config();
 
-const baseUrl = process.env.NEXT_PUBLIC_DOCK_API_URL;
+const baseUrl = process.env.NEXT_PUBLIC_DOCK_API_URL as string;
+const dock_api_key = process.env.NEXT_PUBLIC_DOCK_API_TOKEN as string;
+
+// console.log("API:", dock_api_key);
+
 
 /**
  * @name SendRequest
@@ -22,8 +27,9 @@ type SendRequest = {
  * @param asyncFunc - The asynchronous function to be executed.
  * @returns A Promise that resolves to the data returned by the asynchronous function.
  */
-async function sendAndLog(asyncFunc: () => Promise<any>) {
+export async function sendAndLog(asyncFunc: () => Promise<any>) {
   const result = await asyncFunc();
+  console.log("Send and log response:", result);
   console.log(`Response: ${JSON.stringify(result.data)}`);
 
   return result.data;
@@ -39,7 +45,7 @@ async function sendAndLog(asyncFunc: () => Promise<any>) {
  * @param actionFunc - The asynchronous function that performs the request.
  * @returns The result of the asynchronous request.
  */
-async function sendRequest({
+export async function sendRequest({
   fullUrl,
   sendAction,
   actionFunc
@@ -63,18 +69,21 @@ async function sendRequest({
  * @param data - The data to include as the request body
  * @returns The response from the POST request
  */
-async function post(relativeUrl: string, data: any) {
+export async function post(relativeUrl: string, data: any) {
   const fullUrl = `${baseUrl}/${relativeUrl}`;
-  
+
+  // console.log("dock api key:", dock_api_key)
+  console.log("executing POST..");
   return sendRequest({
     fullUrl, 
     sendAction: "POST",
-    actionFunc: async () => 
-      await fetch(fullUrl, {
+    actionFunc: () => 
+      fetch(fullUrl, {
         method: "POST",
         headers: {
-          "DOCK_API_TOKEN": process.env.NEXT_PUBLIC_DOCK_API_TOKEN as string,
-          "Content-Type": "application/json",
+          "accept": "application/json",
+          "content-type": "application/json",
+          "DOCK-API-TOKEN": dock_api_key as string,
         },
         body: JSON.stringify(data),
       })
@@ -90,7 +99,7 @@ async function post(relativeUrl: string, data: any) {
  * @param data - The data to be sent in the request body.
  * @returns - A promise that resolves to the response of the PATCH request.
  */
-async function patch(relativeUrl: string, data: any) {
+export async function patch(relativeUrl: string, data: any) {
   const fullUrl = `${baseUrl}/${relativeUrl}`;
   
   return sendRequest({
@@ -100,8 +109,8 @@ async function patch(relativeUrl: string, data: any) {
       await fetch(fullUrl, {
         method: "PATCH",
         headers: {
-          "DOCK_API_TOKEN": process.env.NEXT_PUBLIC_DOCK_API_TOKEN as string,
           "Content-Type": "application/json",
+          "DOCK_API_TOKEN": dock_api_key,
         },
         body: JSON.stringify(data),
       })
@@ -115,7 +124,7 @@ async function patch(relativeUrl: string, data: any) {
  *
  * @param relativeUrl - The relative URL path to send the DELETE request to
  */
-async function callDelete(relativeUrl: string) {
+export async function callDelete(relativeUrl: string) {
   const fullUrl = `${baseUrl}/${relativeUrl}`;
 
   return sendRequest({
@@ -125,8 +134,8 @@ async function callDelete(relativeUrl: string) {
       await fetch(fullUrl, {
         method: "DELETE",
         headers: {
-          "DOCK-API-TOKEN": process.env.NEXT_PUBLIC_DOCK_API_TOKEN as string,
           "Content-Type": "application/json",
+          "DOCK-API-TOKEN":dock_api_key,
         },
       })
     });
@@ -142,7 +151,7 @@ async function callDelete(relativeUrl: string) {
  * @param data - { Optional } - The data to send in the request body
  * @returns The response promise after sending the GET request
  */
-async function get(relativeUrl: string, data?: any) {
+export async function get(relativeUrl: string, data?: any) {
   const fullUrl = `${baseUrl}/${relativeUrl}`;
   
   return sendRequest({
@@ -152,12 +161,9 @@ async function get(relativeUrl: string, data?: any) {
       await fetch(fullUrl, {
         method: "GET",
         headers: {
-          "DOCK-API-TOKEN": process.env.NEXT_PUBLIC_DOCK_API_TOKEN as string,
           "Content-Type": "application/json",
+          "DOCK-API-TOKEN": dock_api_key,
         },
-        body: JSON.stringify(data),
       })
     });
-}
-
-export { post, get, patch, callDelete, sendAndLog };
+};
