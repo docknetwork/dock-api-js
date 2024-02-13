@@ -117,6 +117,7 @@ async function patch(relativeUrl: string, data: any) {
  */
 async function callDelete(relativeUrl: string) {
   const fullUrl = `${baseUrl}/${relativeUrl}`;
+
   return sendRequest({
     fullUrl,
     sendAction: "DELETE",
@@ -138,11 +139,12 @@ async function callDelete(relativeUrl: string) {
  * @description Sends a GET request to the specified relative URL with the provided data.
  *
  * @param relativeUrl - The relative URL path to send the request to
- * @param data - The data to send in the request body
+ * @param data - { Optional } - The data to send in the request body
  * @returns The response promise after sending the GET request
  */
-async function get(relativeUrl: string, data: any) {
+async function get(relativeUrl: string, data?: any) {
   const fullUrl = `${baseUrl}/${relativeUrl}`;
+  
   return sendRequest({
     fullUrl,
     sendAction: "GET",
