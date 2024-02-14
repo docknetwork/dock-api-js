@@ -1,48 +1,32 @@
 import { apiPost } from "@/lib/actions/api-post";
-import { Credential } from "./dock-credentials";
+import type { Credential } from "@/types/dock";
 
 
-export type CreateRegistryResponse = {
-  id: string;
-  data: {
-    id: string;
-    policy: {
-      type: string;
-      policy: string[];
-      addOnly: boolean;
-    };
-    type: string;
-  };
-};
+export async function getRegistry(id: string) {
+  
+}
 
-
-
-export async function createRegistry(
-  policyDid: string
-) {
-
+export async function createRegistry(policyDid: string) {
   const data = {
-    addOnly: true,
+    addOnly: false,
     policy: [policyDid],
   };
 
   try {
-    const response: CreateRegistryResponse = await apiPost({
-      relativeUrl: 'registries', 
-      body: data
+    const response: any = await apiPost({
+      relativeUrl: "registries",
+      body: data,
     });
-  
-    console.log("APIPOST response: ", response); 
+
+    console.log("APIPOST response: ", response);
 
     return response;
-    
   } catch (error) {
-    console.error(error); 
-  };
+    console.error(error);
+  }
 
   return undefined;
-};
-
+}
 
 /**
  * @name revoke
@@ -52,6 +36,8 @@ export async function createRegistry(
  * @param credential - The credential object containing the ID to revoke.
  */
 export async function revoke(registryId: string, credential: Credential) {
+  console.log("revoke:start:", { registryId, credential });
+
   const url = `registries/${registryId}`;
 
   const data = {
@@ -60,20 +46,19 @@ export async function revoke(registryId: string, credential: Credential) {
   };
   try {
     const response = await apiPost({
-      relativeUrl: url, 
-      body: data
+      relativeUrl: url,
+      body: data,
     });
-  
-    console.log("REVOKE APIPOST response: ", response); 
+
+    console.log("REVOKE APIPOST response: ", response);
 
     return response;
-
   } catch (error) {
-    console.error(error); 
-  };
+    console.error("revoke:error", error);
+  }
 
   return undefined;
-};
+}
 
 /**
  * @name unrevoke
@@ -90,5 +75,5 @@ export async function unrevoke(registryId: string, credential: { id: string }) {
     credentialIds: [credential.id],
   };
 
- /* return http.sendAndLog(() => http.post(url, data)); */
+  /* return http.sendAndLog(() => http.post(url, data)); */
 }

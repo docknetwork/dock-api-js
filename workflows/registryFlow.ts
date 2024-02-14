@@ -1,38 +1,26 @@
-import { createRegistry, revoke, /* unrevoke*/ } from "../examples/dock-registries";
-import { Issuer, createCredential, Credential } from "../examples/dock-credentials";
+import {
+  createRegistry,
+  revoke /* unrevoke*/,
+} from "../examples/dock-registries";
+import { createCredential } from "../examples/dock-credentials";
 import { waitForJobCompletion } from "../examples/dock-jobs";
-const policyDid = process.env.NEXT_PUBLIC_ISSUER_DID as string;
+import { Credential } from "@/types/dock";
+import type { DidDock } from "@/types/dock";
+const issuerDid = process.env.NEXT_PUBLIC_ISSUER_DID as DidDock;
+const holderDID = process.env.NEXT_PUBLIC_RECEIVER_DID as string;
 
 const credentialToRevoke: Credential = {
-  type: ["Test-Credential"],
+  type: ["VerifiableCredential", "ForSurBiometric"],
+  issuer: issuerDid,
   subject: {
-    degree: {
-      type: "BachelorDegree",
-      name: "Bachelor of Fine Arts",
+    id: holderDID,
+    biometric: {
+      id: "123456",
+      created: new Date().toISOString(),
+      data: new Date().toISOString(),
     },
   },
   issuanceDate: "2019-08-24T14:15:22Z",
-  expirationDate: "2022-08-24T14:15:22Z",
-};
-
-/**
- * Generates a verifiable credential with a randomly generated holder and issuer DID.
- * The credential is based on the credentialToRevoke template.
- */
-export const generateCredential = async () => {
-  const holderDID = process.env.NEXT_PUBLIC_RECEIVER_DID as string;
- 
-  // Set the subject to be the holder
-  credentialToRevoke.subject.id = holderDID;
-
-  const credential = {
-    credential: {
-      ...credentialToRevoke,
-    },
-  };
-  console.log("This is the credential: ", credential);
-
-  return createCredential(credential);
 };
 
 /**
@@ -43,22 +31,30 @@ export const registryFlow = async () => {
   console.log("Starting registry flow");
 
   // create registry
-  const registry = await createRegistry(policyDid);
-  await waitForJobCompletion(registry?.id as string);
-  
-  console.log(`Created registry: ${registry?.data.id}`);
+  const registry = await createRegistry(issuerDid);
+  if (!registry)
+    return console.log("registryFlow:registry:error", { registry });
 
-  const credential = await generateCredential();
-  console.log("Created credential:", {data: credential});
-  
+  await waitForJobCompletion(registry.id);
 
+  console.log(`Created registry:`, { registry });
+  // To link the revocation registry to the credential set the status 
+  // field in the Credential body to the registry.id value.
+  credentialToRevoke.status = registry.data.id;
+  // create credential
+  const credential = await createCredential(credentialToRevoke);
+  console.log("Created credential:", { credential });
   // Revoke credential
-  if (!registry?.data.id) return;
+  if (!credential)
+    return console.log("registryFlow:credential:error", { credential });
 
-  const revocation = await revoke(registry?.data.id as string, credential);
+  const revocation = await revoke(registry.data.id, credential);
+  if (!revocation)
+    return console.log(`registryFlow:revocation:error`, { revocation });
+
   await waitForJobCompletion(revocation.id);
-  
   console.log(`Revoked credential: ${revocation}`);
+
   /* 
   
   // Un-Revoke credential

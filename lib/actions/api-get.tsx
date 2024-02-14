@@ -3,7 +3,7 @@ const dock_api_key = process.env.NEXT_PUBLIC_DOCK_API_TOKEN as string;
 
 interface ApiGetParams {
   relativeUrl: string;
-  body?: any;
+  body?: object;
 }
 
 /**
